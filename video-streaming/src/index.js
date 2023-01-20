@@ -33,11 +33,11 @@ function connectRabbit() {
 // Send the "viewed" to the history microservice.
 //
 function sendViewedMessage(messageChannel, id, videoPath) {
-    console.log(`Publishing message on "viewed${id}" exchange.`);
+    console.log(`Publishing message on "viewed-${id}" exchange.`);
         
     const msg = { videoPath: videoPath };
     const jsonMsg = JSON.stringify(msg);
-    let s = `viewed${id}`
+    let s = `viewed-${id}`
     messageChannel.publish(s, "", Buffer.from(jsonMsg)); // Publish message to the "viewed" exchange.
 }
 

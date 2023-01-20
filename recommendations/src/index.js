@@ -55,7 +55,7 @@ function setupHandlers1(app, db, messageChannel) {
 
     function consumeViewedMessage(msg) { // Handler for coming messages.
         const parsedMsg = JSON.parse(msg.content.toString()); // Parse the JSON message.
-        console.log("Received a 'viewed1' message:");
+        console.log("Received a 'viewed-1' message:");
         console.log(JSON.stringify(parsedMsg, null, 4)); // JUST PRINTING THE RECEIVED MESSAGE.
 
         // ... ADD YOUR CODE HERE TO PROCESS THE MESSAGE ...
@@ -65,14 +65,15 @@ function setupHandlers1(app, db, messageChannel) {
         messageChannel.ack(msg); // If there is no error, acknowledge the message.
     };
 
-    return messageChannel.assertExchange("viewed1", "fanout") // Assert that we have a "viewed" exchange.
+    return messageChannel.assertExchange("viewed-1", "fanout") // Assert that we have a "viewed" exchange.
         .then(() => {
             return messageChannel.assertQueue("", { exclusive: true }); // Create an anonyous queue.
         })
         .then(response => {
             const queueName = response.queue;
-            console.log(`Created queue ${queueName}, binding it to "viewed1" exchange.`);
-            return messageChannel.bindQueue(queueName, "viewed1", "") // Bind the queue to the exchange.
+            console.log(`Created queue ${queueName}, binding it to "viewed-1" exchange.`);
+            console.log(`recommendation video 1`)
+            return messageChannel.bindQueue(queueName, "viewed-1", "") // Bind the queue to the exchange.
                 .then(() => {
                     return messageChannel.consume(queueName, consumeViewedMessage); // Start receiving messages from the anonymous queue.
                 });
@@ -87,7 +88,7 @@ function setupHandlers2(app, db, messageChannel) {
 
     function consumeViewedMessage(msg) { // Handler for coming messages.
         const parsedMsg = JSON.parse(msg.content.toString()); // Parse the JSON message.
-        console.log("Received a 'viewed2' message:");
+        console.log("Received a 'viewed-2' message:");
         console.log(JSON.stringify(parsedMsg, null, 4)); // JUST PRINTING THE RECEIVED MESSAGE.
 
         // ... ADD YOUR CODE HERE TO PROCESS THE MESSAGE ...
@@ -97,14 +98,15 @@ function setupHandlers2(app, db, messageChannel) {
         messageChannel.ack(msg); // If there is no error, acknowledge the message.
     };
 
-    return messageChannel.assertExchange("viewed2", "fanout") // Assert that we have a "viewed" exchange.
+    return messageChannel.assertExchange("viewed-2", "fanout") // Assert that we have a "viewed" exchange.
         .then(() => {
             return messageChannel.assertQueue("", { exclusive: true }); // Create an anonyous queue.
         })
         .then(response => {
             const queueName = response.queue;
-            console.log(`Created queue ${queueName}, binding it to "viewed2" exchange.`);
-            return messageChannel.bindQueue(queueName, "viewed2", "") // Bind the queue to the exchange.
+            console.log(`Created queue ${queueName}, binding it to "viewed-2" exchange.`);
+            console.log(`recommendation video 2`)
+            return messageChannel.bindQueue(queueName, "viewed-2", "") // Bind the queue to the exchange.
                 .then(() => {
                     return messageChannel.consume(queueName, consumeViewedMessage); // Start receiving messages from the anonymous queue.
                 });
