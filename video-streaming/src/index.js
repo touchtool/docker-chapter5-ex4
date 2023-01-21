@@ -45,29 +45,17 @@ function sendViewedMessage(messageChannel, id, videoPath) {
 // Setup event handlers.
 //
 function setupHandlers(app, messageChannel) {
-    app.get("/video&id=1", (req, res) => { // Route for streaming video.
+    app.get("/video", (req, res) => { // Route for streaming video.
+        
+        let v_id = req.query.id
+        let videoPath = "";
 
-        const videoPath = "./videos/SampleVideo_1280x720_1mb.mp4";
-        fs.stat(videoPath, (err, stats) => {
-            if (err) {
-                console.error("An error occurred ");
-                res.sendStatus(500);
-                return;
-            }
-    
-            res.writeHead(200, {
-                "Content-Length": stats.size,
-                "Content-Type": "video/mp4",
-            });
-    
-            fs.createReadStream(videoPath).pipe(res);
+        if (v_id == 1){
+            videoPath = "./videos/SampleVideo_1280x720_1mb.mp4";
+        } else if (v_id == 2){
+            videoPath = "./videos/v2.mp4";
+        }
 
-            sendViewedMessage(messageChannel, 1, videoPath); // Send message to "history" microservice that this video has been "viewed".
-        });
-    });
-    app.get("/video&id=2", (req, res) => { // Route for streaming video.
-
-        const videoPath = "./videos/v2.mp4";
         fs.stat(videoPath, (err, stats) => {
             if (err) {
                 console.error("An error occurred ");
@@ -82,7 +70,7 @@ function setupHandlers(app, messageChannel) {
     
             fs.createReadStream(videoPath).pipe(res);
 
-            sendViewedMessage(messageChannel, 2, videoPath); // Send message to "history" microservice that this video has been "viewed".
+            sendViewedMessage(messageChannel, v_id, videoPath); // Send message to "history" microservice that this video has been "viewed".
         });
     });
 }
